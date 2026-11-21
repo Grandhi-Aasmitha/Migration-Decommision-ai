@@ -1,0 +1,9 @@
+[
+  {"file":"01-source-architecture.txt","document_type":"source_app","application_id":"ledger-core","version":"1.0"},
+  {"file":"02-source-operations.txt","document_type":"source_app","application_id":"ledger-core","version":"1.0"},
+  {"file":"03-atlas-capabilities.txt","document_type":"target","application_id":"atlas-platform","version":"1.0"},
+  {"file":"04-atlas-operations.txt","document_type":"target","application_id":"atlas-platform","version":"1.0"},
+  {"file":"05-nova-platform.txt","document_type":"target","application_id":"nova-platform","version":"1.0"},
+  {"file":"06-security-policy.txt","document_type":"policy","application_id":"_shared","version":"2026.1"},
+  {"file":"07-service-nfr.txt","document_type":"nfr","application_id":"ledger-core","version":"1.0"}
+]

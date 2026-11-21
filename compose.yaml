@@ -1,0 +1,44 @@
+services:
+  neo4j:
+    image: neo4j:5.26.0-community
+    environment:
+      NEO4J_AUTH: neo4j/${NEO4J_PASSWORD:-local-development-only}
+      NEO4J_server_memory_heap_initial__size: 256m
+      NEO4J_server_memory_heap_max__size: 512m
+      NEO4J_server_memory_pagecache_size: 256m
+    ports: ["127.0.0.1:7474:7474", "127.0.0.1:7687:7687"]
+    volumes: ["neo4j_data:/data"]
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q --spider http://localhost:7474"]
+      interval: 10s
+      timeout: 10s
+      retries: 30
+  ollama:
+    image: ollama/ollama:0.12.11
+    volumes: ["ollama_data:/root/.ollama"]
+    ports: ["127.0.0.1:11434:11434"]
+  api:
+    build: {context: ., dockerfile: backend/Dockerfile}
+    environment:
+      GRAPH_BACKEND: neo4j
+      MODEL_PROVIDER: ${MODEL_PROVIDER:-ollama}
+      NEO4J_URI: bolt://neo4j:7687
+      NEO4J_PASSWORD: ${NEO4J_PASSWORD:-local-development-only}
+      OLLAMA_URL: http://ollama:11434
+      CHAT_MODEL: ${CHAT_MODEL:-llama3.2:3b}
+      EMBEDDING_MODEL: ${EMBEDDING_MODEL:-nomic-embed-text}
+      EMBEDDING_DIMENSIONS: ${EMBEDDING_DIMENSIONS:-768}
+      DATA_DIR: /data
+      CORS_ORIGINS: http://localhost:8080
+    volumes: ["api_data:/data"]
+    ports: ["127.0.0.1:8000:8000"]
+    depends_on:
+      neo4j: {condition: service_healthy}
+  web:
+    build: {context: frontend}
+    ports: ["127.0.0.1:8080:80"]
+    depends_on: [api]
+volumes:
+  neo4j_data:
+  ollama_data:
+  api_data:

@@ -1,0 +1,6 @@
+Shared finance security policy
+Synthetic demonstration data. Version 2026.1.
+All finance applications must apply role-based access control, encrypt data in transit and at rest, and record privileged actions. Audit records must be retained for seven years, subject to approved legal retention rules. Policy applicability must be confirmed by the security owner.
+
+Migration evidence required
+Before approving decommissioning, obtain evidence of archive access, completed data reconciliation, security review, and tested rollback. A matching policy name in an architecture document does not establish compliance.

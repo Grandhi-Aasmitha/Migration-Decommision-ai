@@ -1,0 +1,13 @@
+Ledger Core: architecture and capabilities
+Synthetic demonstration data. Owner: Finance Applications. Version 1.0.
+Ledger Core is a Java monolith that posts and reconciles financial transactions.
+HAS_CAPABILITY: transaction posting
+HAS_CAPABILITY: reconciliation
+HAS_CAPABILITY: audit export
+DEPENDS_ON: Identity Gateway
+DEPENDS_ON: Enterprise Event Bus
+DEPENDS_ON: Archive Store
+Identity Gateway provides user authentication. Enterprise Event Bus carries posting events. Archive Store retains exported audit files.
+
+Migration scope
+Preserve transaction identifiers, reconciliation totals, and audit history. Data migration and rollback design have not been approved. No shutdown date has been agreed.

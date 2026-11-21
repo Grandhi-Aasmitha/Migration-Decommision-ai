@@ -1,0 +1,9 @@
+Ledger Core: operations
+Synthetic demonstration data. Version 1.0.
+The current service uses overnight reconciliation batches and a support rotation.
+MUST_MEET: access control
+MUST_MEET: audit retention
+The source application is obligated to meet access control and audit retention requirements. This document states obligations, not evidence that the application meets them.
+
+Open decisions
+Volumes, performance benchmarks, archival deletion rules, migration effort, and cutover costs require owner confirmation.

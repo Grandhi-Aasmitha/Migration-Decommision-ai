@@ -1,0 +1,5 @@
+Atlas Platform: operating constraints
+Synthetic demonstration data. Version 1.0.
+MUST_MEET: access control
+MUST_MEET: audit retention
+These are target obligations awaiting validation. Production benchmark results, recovery exercise results, and cost estimates are not supplied. An implementation spike is required for the archive connector.

@@ -1,0 +1,10 @@
+Nova Platform: target capabilities and operations
+Synthetic demonstration data. Version 1.0.
+HAS_CAPABILITY: transaction posting
+HAS_CAPABILITY: audit export
+DEPENDS_ON: Identity Gateway
+DEPENDS_ON: Enterprise Event Bus
+DEPENDS_ON: Archive Store
+MUST_MEET: access control
+MUST_MEET: audit retention
+Nova retains the three named integrations. Its documentation does not describe reconciliation, so reconciliation coverage is unknown. Performance, recovery, and data conversion work remain to be validated.

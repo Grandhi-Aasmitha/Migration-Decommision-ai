@@ -1,0 +1,3 @@
+Ledger Core: target service requirements
+Synthetic demonstration data. Version 1.0.
+The replacement service must support 99.9 percent monthly availability, recovery within four hours, and no more than fifteen minutes of data loss. Peak-volume and latency targets await workload measurements. Validate the recovery objectives with a recovery exercise and obtain owner sign-off before any decommission decision.

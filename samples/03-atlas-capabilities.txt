@@ -1,0 +1,9 @@
+Atlas Platform: target capabilities
+Synthetic demonstration data. Version 1.0.
+Atlas Platform supports the current finance workflow and exposes REST interfaces.
+HAS_CAPABILITY: transaction posting
+HAS_CAPABILITY: reconciliation
+HAS_CAPABILITY: audit export
+DEPENDS_ON: Identity Gateway
+DEPENDS_ON: Enterprise Event Bus
+The target documentation does not describe Archive Store integration. Treat that integration as an evidence gap.
