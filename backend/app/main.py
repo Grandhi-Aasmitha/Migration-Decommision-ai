@@ -5,7 +5,7 @@ from contextlib import asynccontextmanager
 from pathlib import Path
 from uuid import uuid4
 
-from fastapi import FastAPI, File, Form, HTTPException, UploadFile
+from fastapi import FastAPI, File, Form, HTTPException, Query, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
 
@@ -14,6 +14,7 @@ from .config import Settings
 from .database import Database, now
 from .extraction import stable_id
 from .graph import MemoryGraph, Neo4jGraph
+from .graph_view import graph_snapshot
 from .ingestion import IngestionService
 from .models import AssessmentRequest, ChatRequest, ClarificationAnswer, DocumentType
 from .providers import ModelProvider
@@ -123,6 +124,26 @@ def create_app(settings: Settings | None = None, graph_override=None):
     @app.get("/documents")
     def documents():
         return {"documents": [public_document(d) for d in db.list("documents")]}
+
+    @app.get("/graph")
+    def view_graph(application_id: str | None = None, document_id: str | None = None,
+                   max_nodes: int = Query(default=180, ge=10, le=300)):
+        ready = [d for d in db.list("documents") if d["status"] == "ready"]
+        if document_id:
+            document = db.get("documents", document_id)
+            if not document:
+                raise HTTPException(404, "Document not found.")
+            if document["status"] != "ready":
+                raise HTTPException(409, "The document is still processing. Its graph will be available when ready.")
+            ready = [d for d in ready if d["id"] == document_id]
+        if application_id:
+            ready = [d for d in ready if d["application_id"] == application_id or
+                     (d["application_id"] == "_shared" and d["document_type"] in {"policy", "nfr"})]
+        try:
+            return graph_snapshot(graph, ready, max_nodes)
+        except Exception:
+            logger.exception("Graph exploration failed")
+            raise HTTPException(503, "Cannot load the graph. Check graph availability and API logs.")
 
     @app.get("/ingestion-jobs/{job_id}")
     def job(job_id: str):

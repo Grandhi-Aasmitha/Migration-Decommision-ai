@@ -26,6 +26,10 @@ def test_real_neo4j_ingestion_hybrid_graph_scope_and_assessment(tmp_path):
             answer=response.json()
             assert "Identity Gateway" in answer["answer"]
             assert "Secret Beta Store" not in str(answer)
+            visual = client.get("/graph", params={"application_id": "ledger-core"}).json()
+            assert "Secret Beta Store" not in str(visual)
+            assert any(e["relation"] == "DEPENDS_ON" for e in visual["edges"])
+            assert any(n["kind"] == "Document" for n in visual["nodes"])
             before=graph.query("MATCH (c:Chunk) RETURN count(c) AS n")[0]["n"]
             corpus(client)
             assert graph.query("MATCH (c:Chunk) RETURN count(c) AS n")[0]["n"]==before

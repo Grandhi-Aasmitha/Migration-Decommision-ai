@@ -10,7 +10,7 @@ from app.config import Settings
 from app.extraction import extract_sections
 from app.main import create_app
 
-SAMPLES = Path(__file__).resolve().parents[2] / "samples"
+SAMPLES = Path(__file__).resolve().parent / "fixtures/documents"
 
 
 def wait(client, path, statuses=("ready", "paused", "completed", "failed")):

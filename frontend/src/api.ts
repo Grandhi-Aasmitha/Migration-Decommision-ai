@@ -17,3 +17,7 @@ export type Answer = {answer:string;citations:Citation[];facts:Fact[];mode:strin
 export type Candidate = {application_id:string;coverage_score:number|null;gaps:string[];matches:Record<string,string[]>;facts:Fact[]};
 export type Result = {summary:string;recommendation:string|null;objective:string;draft:boolean;gaps:string[];candidates:Candidate[];citations:Citation[];rubric?:{capability_weight:number;integration_weight:number;meaning:string}};
 export type Assessment = {id:string;status:string;step:string;request:{application_id:string;target_ids:string[]};error?:string;question?:{question:string;choices:{label:string;value:string}[]};result?:Result};
+export type GraphKind = 'Document' | 'Chunk' | 'Application' | 'System' | 'Capability' | 'Policy';
+export type GraphNode = {id:string;kind:GraphKind;label:string;document_id?:string;text?:string;page?:number|null;section?:string;url?:string;version?:string};
+export type GraphEdge = {id:string;source:string;target:string;relation:string;evidence:Citation & {quote?:string}};
+export type GraphData = {nodes:GraphNode[];edges:GraphEdge[];truncated:boolean;document_count:number;available_document_count:number};

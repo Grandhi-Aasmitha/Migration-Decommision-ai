@@ -2,7 +2,7 @@
 
 ## Inspect the graph
 
-Run in Neo4j Browser after the sample loader completes:
+Run in Neo4j Browser after uploading and processing your documents:
 
 ```cypher
 MATCH (d:Document)-[:HAS_CHUNK]->(c:Chunk)
@@ -10,7 +10,7 @@ RETURN d.filename, d.document_type, d.application_id, count(c) AS chunks;
 ```
 
 ```cypher
-MATCH (a:Application {id:'ledger-core'})-[r:DEPENDS_ON]->(s:System)
+MATCH (a:Application {id:'my-application'})-[r:DEPENDS_ON]->(s:System)
 RETURN a.id, s.name, r.document_id, r.chunk_id, r.page, r.section, r.quote;
 ```
 
@@ -36,6 +36,8 @@ Only one API process is supported. It has one ingestion worker and one assessmen
 Assessment evidence is checkpointed before clarification, providing a stable review snapshot. New uploads do not retroactively alter a paused run's fact inventory. Start a new run to include newly uploaded evidence. The resume endpoint checks that its referenced evidence is ready, including after demo restoration. Active execution interrupted by a restart is reported failed; paused runs retain their checkpoint.
 
 ## Interfaces
+
+`GET /graph` projects only ready documents from the uploaded-document registry. It reads stored chunks and fixed graph facts through the graph adapter, preserves citations on every edge, and bounds node counts. The React graph explorer refreshes when a document becomes ready. Empty workspaces produce an empty projection without creating example nodes.
 
 - `ModelProvider`: Ollama embedding, constrained extraction, and cited answer generation; explicit deterministic demo implementation.
 - `Neo4jGraph` / `MemoryGraph`: store, scoped hybrid search, graph facts, original chunk inspection.
